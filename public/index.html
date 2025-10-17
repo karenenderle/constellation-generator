@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contellation Generator</title>
+    <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <header>
+        <h1>Constellation Generator</h1>
+        <div class="controls">
+        <label>
+            Seed:
+            <input id="seedInput" type="text" value="orion" />
+        </label>
+        <button id="applySeed">Apply</button>
+        <span class="hint">Drag to pan • Scroll to zoom • Click a star for its legend</span>
+        </div>
+    </header>
+
+    <main>
+        <canvas id="ky" width="1200" height="700"></canvas>
+        <aside id="panel">
+            <hs>Myth</hs>
+            <div id="myth">Click a star to reveal its legend.</div>
+        </aside>
+    </main>
+    
+</body>
+</html>
