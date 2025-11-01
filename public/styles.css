@@ -1,0 +1,18 @@
+body {
+  margin: 0;
+  background: radial-gradient(ellipse at bottom, #0b0f1a 0%, #000000 100%);
+  color: white;
+  font-family: system-ui, sans-serif;
+  text-align: center;
+}
+
+header {
+  padding: 10px;
+}
+
+canvas {
+  display: block;
+  width: 100%;
+  height: calc(100vh - 80px);
+  background: #02040a;
+}
