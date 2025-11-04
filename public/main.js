@@ -31,7 +31,7 @@ function random() {
 // III. Generate stars
 function drawStars() {
     const STAR_COUNT = 200; // Determine how many stars to draw
-    ctx.globalAlpha = 1;
+    ctx.globalAlpha = 1; // Clear and paint background every draw
     ctx.fillStyle = "#060912";
     ctx.fillRect(0, 0, canvas.width, canvas.height); // Clear the canvas with a dark background
 
@@ -71,3 +71,57 @@ applySeedButton.addEventListener("click", () => {
     setSeed(newSeed);
     drawStars();
 });
+
+// V. Add pan and zoom functionality
+let offsetX = 0;
+let offsetY = 0;
+let isDragging = false;
+let startX, startY;
+let scale = 1;
+
+// Add event listeners for panning
+canvas.addEventListener("mousedown", (e) => {
+    isDragging = true;
+    startX = e.clientX;
+    startY = e.clientY;
+});
+
+canvas.addEventListener("mousemove", (e) => {
+    if (isDragging) {
+        const dx = e.clientX - startX;
+        const dy = e.clientY - startY;
+        offsetX += dx;
+        offsetY += dy;
+        startX = e.clientX;
+        startY = e.clientY;
+        drawSky(); // Redraw the sky with updated offsets
+    }
+});
+
+canvas.addEventListener("mouseup", () => {
+    isDragging = false;
+});
+canvas.addEventListener("mouseleave", () => {
+    isDragging = false;
+});
+
+// Add scroll event listener for zooming
+canvas.addEventListener("wheel", (e) => {
+    e.preventDefault();
+    const zoomSpeed = 0.1;
+    if (e.deltaY < 0) {
+        scale *= 1 + zoomSpeed; // Zoom in
+    } else {
+        scale *= 1 - zoomSpeed; // Zoom out
+    }
+    drawSky(); // Redraw the sky with updated scale
+});
+
+function drawSky() {
+    ctx.save();
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.translate(offsetX, offsetY);
+    ctx.scale(scale, scale);
+    drawStars(); // Draw stars and consellations
+    ctx.restore(); // Restore to default
+}
