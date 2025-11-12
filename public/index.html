@@ -3,12 +3,13 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Contellation Generator</title>
+    <title>Constellation Generator</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
     <header>
         <h1>Constellation Generator</h1>
+
         <div class="controls">
             <label>
                 Seed:
@@ -16,15 +17,26 @@
             </label>
             <button id="applySeed">Apply</button>
         </div>
-        <p class="hint">Type a seed name (e.g., "orion," "vega") and click "Apply."</p>
-        <p class="hint">Drag to pan  •  Scroll to zoom  •  Click a star for its associated legend</p>
+
+        <section class="myth-panel">
+            <h2>Constellation Story</h2>
+            <p id="mythText">Click on a star to reveal its associated legend.</p>
+        </section>
+
+        <p class="hint">
+            Type a seed name (e.g., "Orion," "Vega," etc.) and click "Apply."
+        </p>
+        <p class="hint">
+            Drag to pan  •  Scroll to zoom  •  Click a star for its associated legend
+        </p>
     </header>
 
     <main>
         <canvas id="sky" width="1200" height="700"></canvas>
+        
         <aside id="panel">
             <hs>Myth</hs>
-            <div id="myth">Clickfo a star to reveal its associated legend.</div>
+            <div id="myth">Click a star to reveal its legend.</div>
         </aside>
     </main>
     
