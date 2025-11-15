@@ -1,52 +1,134 @@
+/* Global Styles */
 body {
   margin: 0;
   background: radial-gradient(ellipse at bottom, #0b0f1a 0%, #000000 100%);
-  color: white;
-  font-family: system-ui, sans-serif;
-  text-align: center;
+  color: #e6ecff;
+  font-family: "Courier New", monospace;
 }
 
+/* Header Styles */
 header {
-  padding: 10px;
+  background: #5a6680;
+  padding: 16px 24px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
 }
 
+.header-left {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+header h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  letter-spacing: 0.1em;
+}
+
+.subtitle {
+  font-size: 0.75rem;
+  margin: 0;
+  opacity: 0.9;
+}
+
+/* Controls Styles */
 .controls {
-    margin: 0.5rem 0;
+  margin-top: 8px;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  font-size: 0.8rem;
 }
 
+.controls label {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+/* Input and Button Styles */
 input {
-    background: #0b1630;
-    color: #e6ecff;
-    border: 1px solid #2a3658;
-    border-radius: 6px;
-    padding: 4px 8px;
+  background: #0b0f1a;
+  border: 1px solid #2a3658;
+  color: #e6ecff;
+  padding: 4px 10px;
+  font-size: 0.85rem;
+  border-radius: 999px;
 }
 
 button {
-    background: #7aa2ff;
-    color: #071022;
-    border: none;
-    padding: 6px 10px;
-    border-radius: 6px;
-    cursor: pointer;
-    font-weight: 600;
+  background: #2a3658;
+  border: none;
+  color: #e6ecff;
+  padding: 6px 14px;
+  font-size: 0.85rem;
+  border-radius: 999px;
+  cursor: pointer;
 }
 
 button:hover {
-    transform: scale(1.05);
+  background: #3b4a70;
+  transform: scale(1.05);
 }
 
-canvas {
-  display: block;
+/* Hamburger Icon */
+.menu-icon {
+  width: 28px;
+  height: 22px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-top: 4px;
+}
+
+.menu-icon div {
+  background: white;
+  height: 3px;
+  border-radius: 3px;
+}
+
+/* Main Content Styles */
+.layout {
+  display: flex;
+  height: calc(100vh - 72px);
+}
+
+/* Canvas Styles */
+canvas#sky {
+  flex: 2;
+  background: #071533;
   width: 100%;
-  height: calc(100vh - 80px);
-  background: #02040a;
+  height: 100%;
+  display: block;
 }
 
-footer {
-  padding: 8px;
-  font-size: 0.85rem;
-  color: #9bb0ffcc;
+/* Myth Panel Styles */
+.myth-panel {
+  flex: 1;
+  background: #5a6680;
+  padding: 32px 24px;
+  color: #e6ecff;
+  text-align: left;
+}
+
+.myth-panel h2 {
+  margin: 0 0 1rem 0;
+  font-size: 1.5rem;
+  letter-spacing: 0.1em;
+}
+
+#mythText strong {
+  font-weight: bold;
+}
+
+.myth-panel p {
+  margin: 0;
+  margin-top: 0.75rem;
+  line-height: 1.4;
+  font-size: 0.9rem;
+  max-width: 320px;
 }
 
 #mythText {

@@ -8,22 +8,39 @@
 </head>
 <body>
     <header>
-        <h1>Constellation Generator</h1>
+        <div class="header-left">
+            <h1>Constellation Generator</h1>
+            <p class="subtitle">
+                Drag to pan  •  Scroll to zoom  •  Click a star for its myth
+            </p>
 
-        <div class="controls">
-            <label>
-                Seed:
-                <input id="seedInput" type="text" value="orion" />
-            </label>
-            <button id="applySeed">Apply</button>
+            <div class="controls">
+                <label>
+                    Seed:
+                    <input id="seedInput" type="text" value="orion" />
+                </label>
+                <button id="applySeed">Apply</button>
+            </div>
         </div>
 
+        <div class="menu-icon">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </header>
+
+    <main class="layout">
+        <canvas id="sky"></canvas>
+
         <section class="myth-panel">
-            <h2>Constellation Story</h2>
-            <p id="mythText">Click on a star to reveal its associated legend.</p>
+            <h2>Myth</h2>
+            <p id="mythText">
+                Click a star to reveal its associated myth.
+            </p>
         </section>
 
-        <p class="hint">
+        <!-- <p class="hint">
             Type a seed name (e.g., "Orion," "Vega," etc.) and click "Apply."
         </p>
         <p class="hint">
@@ -37,9 +54,9 @@
         <aside id="panel">
             <hs>Myth</hs>
             <div id="myth">Click a star to reveal its legend.</div>
-        </aside>
-    </main>
+        </aside> -->
     
+    </main>
     <script src="main.js"></script>
 </body>
 </html>

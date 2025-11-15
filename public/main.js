@@ -5,8 +5,18 @@ const seedInput = document.getElementById("seedInput");
 const applySeedButton = document.getElementById("applySeed");
 const mythTextEl = document.getElementById("mythText");
 
+// Default text to show in myth panel
+const DEFAULT_MYTH_TEXT = "Click on a star to learn its myth.";
+
+// If the panel is empty, restore the default text
+if (mythTextEl && !mythTextEl.textContent.trim()) {
+    mythTextEl.textContent = DEFAULT_MYTH_TEXT;
+}
+
 // Keep track of stars to detect clicks
 let stars = [];
+let STARFIELD_WIDTH = 0;
+let STARFIELD_HEIGHT = 0;
 
 // Resize canvas so it matches the size of its container
 function resizeCanvas() {
@@ -35,13 +45,15 @@ function random() {
     return x - Math.floor(x);
     }
 
-// III. Generate stars
-function drawStars() {
+// III. Generate stars for one "tile" of the starfield
+function generateStars() {
     const STAR_COUNT = 200; // Determine how many stars to draw
+
+    // Use the canvas size as the base tile size
+    STARFIELD_WIDTH = canvas.width;
+    STARFIELD_HEIGHT = canvas.height;
+
     stars = []; // Clear existing stars
-    ctx.globalAlpha = 1; // Clear and paint background every draw
-    ctx.fillStyle = "#060912"; // Dark night sky color
-    ctx.fillRect(0, 0, canvas.width, canvas.height); // Clear the canvas with a dark background
 
     // Draw each star
     for (let i = 0; i < STAR_COUNT; i++) {
@@ -54,23 +66,52 @@ function drawStars() {
             id: i, // Unique ID for each star
             x: x, // X position
             y: y, // Y position
-            radius: radius // Size of the star
+            radius: radius, // Size of the star
+            alpha: alpha // Brightness of the star
         });
-
-        ctx.beginPath(); // Start a new path for each star
-        ctx.globalAlpha = alpha; // Set the transparency for this star
-        ctx.fillStyle = "#cfe3ff"; // Set the color for this star
-        ctx.arc(x, y, radius, 0, Math.PI *2); // Draw a circle for the star
-        ctx.fill(); // Fill the star shape
     }
+}
+
+// IV. Draw an infinite starfield
+function drawStarsInfinite() {
+    if (!stars.length || STARFIELD_WIDTH === 0 || STARFIELD_HEIGHT === 0) return; // No stars to draw yet
+
+    const tileW = STARFIELD_WIDTH;
+    const tileH = STARFIELD_HEIGHT;
+
+    // Figure out which part of the "world" is currently visible
+    const minX = (-offsetX) / scale; // Left edge in sky coordinates
+    const minY = (-offsetY) / scale; // Top edge in sky coordinates
+    const maxX = minX + (canvas.width / scale); // Right edge in sky coordinates
+    const maxY = minY + (canvas.height / scale); // Bottom edge in sky coordinates
+
+    // Find which tiles intersect the visible area
+    const startTileX = Math.floor(minX / tileW) - 1; // Extra buffer tile
+    const startTileY = Math.floor(minY / tileH) - 1; // Extra buffer tile
+    const endTileX = Math.floor(maxX / tileW) + 1; // Extra buffer tile
+    const endTileY = Math.floor(maxY / tileH) + 1; // Extra buffer tile
+
+    // Loop through the visible tiles and draw stars
+    for (let tileX = startTileX; tileX <= endTileX; tileX++) {
+        for (let tileY = startTileY; tileY <= endTileY; tileY++) {
+            const shiftX = tileX * tileW; // Calculate the offset for this tile
+            const shiftY = tileY * tileH; // Calculate the offset for this tile
+
+            // Draw all stars in this tile
+            for (const star of stars) {
+                ctx.beginPath(); // Start a new path for each star
+                ctx.globalAlpha = star.alpha; // Set the transparency for this star
+                ctx.fillStyle = "#cfe3ff"; // Set the color for this star
+                ctx.arc(star.x + shiftX, star.y + shiftY, star.radius, 0, Math.PI *2); // Draw a circle for the star
+                ctx.fill(); // Fill the star shape
+            }
+        }
+    }
+
     ctx.globalAlpha = 1; // Reset the transparency back to full for any future drawing
 }
 
-// Run the function to draw the stars on the canvas once when the page loads
-setSeed("orion");
-drawStars();
-
-// IV. Apply seed from user input
+// V. Apply seed from user input
 applySeedButton.addEventListener("click", () => {
     const newSeed = seedInput.value.trim(); // Get the seed value from the input field
     if (newSeed === "") {
@@ -84,14 +125,14 @@ applySeedButton.addEventListener("click", () => {
         return;
     }
 
-    setSeed(newSeed); // Update the seed value
+    // Seed will be used inside drawSky() to ensure stars match the seed every time
     drawSky(); // Redraw the sky with the new seed
     if (mythTextEl) {
-        mythTextEl.textContent = ""; // Clear any existing myth text
+        mythTextEl.textContent = DEFAULT_MYTH_TEXT; // Clear any existing myth text
     }
 });
 
-// V. Add pan and zoom functionality
+// VI. Add pan and zoom functionality
 let offsetX = 0;
 let offsetY = 0;
 let isDragging = false;
@@ -139,10 +180,17 @@ canvas.addEventListener("wheel", (e) => {
     drawSky(); // Redraw the sky with updated scale
 });
 
-// Redraw the entire sky with panning and zooming
+// VII.Redraw the entire sky with panning and zooming
 function drawSky() {
     ctx.save();
+
+    // Clear the canvas and paint the background once
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.globalAlpha = 1;
+    ctx.fillStyle = "#060912"; // Dark night sky color
+    ctx.fillRect(0, 0, canvas.width, canvas.height); // Clear the canvas with a dark background
+
+    // Apply pan and zoom transformations
     ctx.translate(offsetX, offsetY);
     ctx.scale(scale, scale);
 
@@ -150,11 +198,13 @@ function drawSky() {
     const currentSeed = seedInput.value && seedInput.value.trim() || "orion";
     setSeed(currentSeed);
 
-    drawStars(); // Draw stars and consellations
+    generateStars(); // Generate stars based on the current seed
+    drawStarsInfinite(); // Draw the infinite starfield
+
     ctx.restore(); // Restore to default
 }
 
-// VI. Fetch and display constellation myth
+// VIII. Fetch and display constellation myth
 // Ask backend for a story for a specific star (by id)
 async function fetchMythForName(seed, starId) {
     if (mythTextEl) {
@@ -184,7 +234,7 @@ async function fetchMythForName(seed, starId) {
     }
 }
 
-// VII. Click-to-fetch-myth functionality
+// IX. Click-to-fetch-myth functionality
 // Convert from screen coordinates to canvas coordinates to sky coordinates
 canvas.addEventListener("click", (event) => {
     const rect = canvas.getBoundingClientRect(); // Position relative to the canvas element
@@ -200,13 +250,24 @@ canvas.addEventListener("click", (event) => {
     const skyX = (pixelX - offsetX * dpr) / scale;
     const skyY = (pixelY - offsetY * dpr) / scale;
 
-    // Find a star close to the click
+    // Wrap into the base tile so clicks work on any repeated tile
+    const tileW = STARFIELD_WIDTH || canvas.width;
+    const tileH = STARFIELD_HEIGHT || canvas.height;
+    let wrappedX = skyX;
+    let wrappedY = skyY;
+
+    if (tileW > 0 && tileH > 0) { // Avoid division by zero
+        wrappedX = ((skyX % tileW) + tileW) % tileW; // Wrap X coordinate
+        wrappedY = ((skyY % tileH) + tileH) % tileH; // Wrap Y coordinate
+    }
+
+    // Find a star close to the click (in the base tile)
     const CLICK_RADIUS = 5; // How close in pixels the click must be
     let clickedStar = null;
 
     for (const star of stars) {
-        const dx = star.x - skyX;
-        const dy = star.y - skyY;
+        const dx = star.x - wrappedX;
+        const dy = star.y - wrappedY;
         const distance = Math.sqrt(dx * dx + dy * dy);
         if (distance <= CLICK_RADIUS) {
             clickedStar = star;
@@ -219,3 +280,6 @@ canvas.addEventListener("click", (event) => {
         const currentSeed = (seedInput.value && seedInput.value.trim()) || "orion";
         fetchMythForName(currentSeed, String(clickedStar.id));
 });
+
+// X. Initial draw
+drawSky();
