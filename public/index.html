@@ -6,57 +6,50 @@
     <title>Constellation Generator</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
-<body>
-    <header>
-        <div class="header-left">
+<body class="app">
+    <header class="site-header">
+        <div class="site-heading">
             <h1>Constellation Generator</h1>
             <p class="subtitle">
                 Drag to pan  •  Scroll to zoom  •  Click a star for its myth
             </p>
-
-            <div class="controls">
-                <label>
-                    Seed:
-                    <input id="seedInput" type="text" value="orion" />
-                </label>
-                <button id="applySeed">Apply</button>
-            </div>
-        </div>
-
-        <div class="menu-icon">
-            <div></div>
-            <div></div>
-            <div></div>
         </div>
     </header>
 
-    <main class="layout">
-        <canvas id="sky"></canvas>
-
-        <section class="myth-panel">
-            <h2>Myth</h2>
-            <p id="mythText">
-                Click a star to reveal its associated myth.
-            </p>
+    <main class="app-layout">
+         <!-- Canvas Section -->
+        <section class="canvas-wrapper">
+            <canvas id="sky"></canvas>
         </section>
 
-        <!-- <p class="hint">
-            Type a seed name (e.g., "Orion," "Vega," etc.) and click "Apply."
-        </p>
-        <p class="hint">
-            Drag to pan  •  Scroll to zoom  •  Click a star for its associated legend
-        </p>
-    </header>
+        <!-- Side Panel -->
+        <aside class="side-panel">
+            <section class="control-card glass">
+                <h2 class="panel-title">Controls</h2>
 
-    <main>
-        <canvas id="sky" width="1200" height="700"></canvas>
-        
-        <aside id="panel">
-            <hs>Myth</hs>
-            <div id="myth">Click a star to reveal its legend.</div>
-        </aside> -->
-    
+                <div class="seed-group">
+                    <label for="seedInput" class="seed-label">Seed</label>
+                    <div class="seed-input-row">
+                        <input
+                            type="text"
+                            id="seedInput"
+                            value="orion"
+                            autocomplete="off"
+                        />
+                        <button id="applySeed">Apply</button>
+                    </div>
+                </div>
+            </section>
+
+            <section class="myth-panel glass">
+                <h2>Myth</h2>
+                <p id="mythText">
+                    Click a star to reveal its associated myth.
+                </p>
+            </section>
+        </aside>
     </main>
+
     <script src="main.js"></script>
 </body>
 </html>
