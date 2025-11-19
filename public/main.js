@@ -20,11 +20,32 @@ let STARFIELD_HEIGHT = 0;
 
 // Resize canvas so it matches the size of its container
 function resizeCanvas() {
-    canvas.width = canvas.clientWidth * window.devicePixelRatio;
-    canvas.height = canvas.clientHeight * window.devicePixelRatio;
+    const dpr = window.devicePixelRatio || 1;
+    const rect = canvas.getBoundingClientRect();
+
+    // Actual drawn size in CSS pixels
+    const displayWidth = rect.width;
+    const displayHeight = rect.height;
+
+    // Don't resize if the canvas isn't visible yet
+    if (displayWidth === 0 || displayHeight === 0) {
+        return;
+    }
+
+    // Set internal resolution to match the display size and device pixel ratio
+    canvas.width = displayWidth * dpr;
+    canvas.height = displayHeight * dpr;
 }
-resizeCanvas();
-window.addEventListener("resize", () => { 
+
+// Initialize once everything is loaded
+function initSky() {
+    resizeCanvas(); // Make the canvas match the pill
+    drawSky();      // Draw the stars
+}
+
+// Resize and redraw on window resize
+window.addEventListener("load", initSky);
+window.addEventListener("resize", () => {
     resizeCanvas();
     drawSky();
 });
@@ -74,7 +95,7 @@ function generateStars() {
 
 // IV. Draw an infinite starfield
 function drawStarsInfinite() {
-    if (!stars.length || STARFIELD_WIDTH === 0 || STARFIELD_HEIGHT === 0) return; // No stars to draw yet
+    // if (!stars.length || STARFIELD_WIDTH === 0 || STARFIELD_HEIGHT === 0) return; // No stars to draw yet
 
     const tileW = STARFIELD_WIDTH;
     const tileH = STARFIELD_HEIGHT;
@@ -281,5 +302,5 @@ canvas.addEventListener("click", (event) => {
         fetchMythForName(currentSeed, String(clickedStar.id));
 });
 
-// X. Initial draw
-drawSky();
+// // X. Initial draw
+// drawSky();

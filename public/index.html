@@ -4,6 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Constellation Generator</title>
+    
+      <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
     <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
@@ -51,8 +60,45 @@
                     </div>
                 </section>
 
+            <section class="panel-card">
+                <h2 class="panel-title">Constellation Lines</h2>
 
+                <div class="panel-section">
+                    <div class="field-row toggle-row">
+                        <span class="field-label">Show Lines</span>
+                        <label class="switch">
+                            <input type="checkbox" id="toggleLines" checked />
+                            <span class="switch-track"></span>
+                        </label>
+                    </div>
 
+                    <div class="field-row slider-row">
+                        <label for="maxNeighbors" class="field-label">Max Neighbors:<span class="field-value" id="neighborsOut">2</span></label>
+                        <input
+                            type="range"
+                            id="maxNeighbors"
+                            min="0"
+                            max="6"
+                            step="1"
+                            value="2"
+                        />
+                    </div>
+
+                    <div class="field-row slider-row">
+                        <label for="maxDistance" class="field-label">Max Distance:<span class="field-value" id="distanceOut">140</span></label>
+                        <input
+                            type="range"
+                            id="maxDistance"
+                            min="40"
+                            max="260"
+                            step="10"
+                            value="140"
+                        />
+                    </div>
+                </div>
+            </section>
+
+            <!-- Story Card -->
             <section class="panel-card story-card">
                 <div class="story-header">
                     <div class="story-icon">*</div>
