@@ -6,49 +6,72 @@
     <title>Constellation Generator</title>
     <link rel="stylesheet" href="styles.css" />
 </head>
-<body class="app">
-    <header class="site-header">
-        <div class="site-heading">
-            <h1>Constellation Generator</h1>
-            <p class="subtitle">
-                Drag to pan  •  Scroll to zoom  •  Click a star for its myth
-            </p>
-        </div>
-    </header>
+<body>
+    <div class="app">
+        <header class="site-header">
+            <div class="logo-title">
+                <h1>Constellation Generator</h1>
+                <p class="subtitle">
+                    Procedurally generate constellations and explore their myths.
+                </p>
+            </div>
+        </header>
 
-    <main class="app-layout">
-         <!-- Canvas Section -->
-        <section class="canvas-wrapper">
-            <canvas id="sky"></canvas>
-        </section>
-
-        <!-- Side Panel -->
-        <aside class="side-panel">
-            <section class="control-card glass">
-                <h2 class="panel-title">Controls</h2>
-
-                <div class="seed-group">
-                    <label for="seedInput" class="seed-label">Seed</label>
-                    <div class="seed-input-row">
-                        <input
-                            type="text"
-                            id="seedInput"
-                            value="orion"
-                            autocomplete="off"
-                        />
-                        <button id="applySeed">Apply</button>
+        <main class="app-layout">
+            <!-- Canvas Section -->
+            <section class="sky-pane">
+                <div class="canvas-frame">
+                    <canvas id="sky"></canvas>
+                    <div class="canvas-hint">
+                        Drag to pan  •  Scroll to zoom  •  Click a star for its myth
                     </div>
                 </div>
             </section>
 
-            <section class="myth-panel glass">
-                <h2>Myth</h2>
-                <p id="mythText">
-                    Click a star to reveal its associated myth.
-                </p>
+        <!-- Side Panel -->
+            <aside class="side-panel">
+                <section class="panel-card glass">
+                    <h2 class="panel-title">Seed View</h2>
+
+                    <div class="panel-section">
+                        <label for="seedInput" class="seed-label">Seed</label>
+                        <div class="seed-input-row">
+                            <input
+                                type="text"
+                                id="seedInput"
+                                value="orion"
+                                autocomplete="off"
+                                placeholder="Type a word or phrase"
+                            />
+                            <button id="applySeed" type="button">Apply</button>
+                        </div>
+                        <p class="hint-text">
+                            Each seed creates a unique but repeatable sky.
+                        </p>
+                    </div>
+                </section>
+
+
+
+            <section class="panel-card story-card">
+                <div class="story-header">
+                    <div class="story-icon">*</div>
+                    <div>
+                        <h2 class="panel-title">Star Myths</h2>
+                        <p class="hint-text">Discover the myth behind each star in your constellation.</p>
+                    </div>
+                </div>
+
+                <div id="story-body">
+                    <h3 id="storyTitle" class="story-title">No star selected</h3>
+                    <p id="mythText">
+                        Choose a seed and click on a star in the sky to reveal its myth.
+                    </p>
+                </div>
             </section>
         </aside>
     </main>
+    </div>
 
     <script src="main.js"></script>
 </body>
