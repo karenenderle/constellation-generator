@@ -26,21 +26,18 @@
             </div>
         </header>
 
-        <main class="app-layout">
-            <!-- Canvas Section -->
-            <section class="sky-pane">
-                <div class="canvas-frame">
-                    <canvas id="sky"></canvas>
-                    <div class="canvas-hint">
-                        Drag to pan  •  Scroll to zoom  •  Click a star for its myth
-                    </div>
+    <main class="app-layout">
+        <!-- Canvas Section -->
+        <section class="sky-pane">
+            <div class="canvas-frame">
+                <canvas id="sky"></canvas>
+                <div class="canvas-hint">
+                    Drag to pan  •  Scroll to zoom  •  Click a star for its myth
                 </div>
-            </section>
 
-        <!-- Side Panel -->
-            <aside class="side-panel">
-                <section class="panel-card glass">
-                    <h2 class="panel-title">Seed View</h2>
+                <aside class="side-panel">
+                    <section class="panel-card glass">
+                        <h2 class="panel-title">Seed View</h2>
 
                     <div class="panel-section">
                         <label for="seedInput" class="seed-label">Seed</label>
@@ -58,67 +55,62 @@
                             Each seed creates a unique but repeatable sky.
                         </p>
                     </div>
-                </section>
+                    </section>
 
-            <section class="panel-card">
-                <h2 class="panel-title">Constellation Lines</h2>
+                    <section class="panel-card">
+                        <h2 class="panel-title">Constellation Lines</h2>
 
-                <div class="panel-section">
-                    <div class="field-row toggle-row">
-                        <span class="field-label">Show Lines</span>
-                        <label class="switch">
-                            <input type="checkbox" id="toggleLines" checked />
-                            <span class="switch-track"></span>
-                        </label>
+                        <div class="panel-section">
+                            <div class="field-row toggle-row">
+                                <span class="field-label">Show Lines</span>
+                                <label class="switch">
+                                    <input type="checkbox" id="toggleLines" checked />
+                                    <span class="switch-track"></span>
+                                </label>
+                        </div>
+
+                        <div class="field-row slider-row">
+                            <label for="maxNeighbors" class="field-label">
+                                Max Neighbors:
+                                <span class="field-value" id="neighborsOut">2</span>
+                            </label>
+                            <input type="range" id="maxNeighbors" min="0" max="6" step="1" value="2" />
+                        </div>
+
+                        <div class="field-row slider-row">
+                            <label for="maxDistance" class="field-label">
+                                Max Distance:
+                                <span class="field-value" id="distanceOut">140</span>
+                            </label>
+                            <input type="range" id="maxDistance" min="40" max="260" step="10" value="140" />
+                        </div>
                     </div>
+                    </section>
 
-                    <div class="field-row slider-row">
-                        <label for="maxNeighbors" class="field-label">Max Neighbors:<span class="field-value" id="neighborsOut">2</span></label>
-                        <input
-                            type="range"
-                            id="maxNeighbors"
-                            min="0"
-                            max="6"
-                            step="1"
-                            value="2"
-                        />
-                    </div>
+                    <!-- Story Card -->
+                    <section class="panel-card story-card">
+                        <div class="story-header">
+                            <div class="story-icon">*</div>
+                            <div>
+                                <h2 class="panel-title">Star Myths</h2>
+                                <p class="hint-text">Discover the myth behind each star in your constellation.</p>
+                            </div>
+                        </div>
 
-                    <div class="field-row slider-row">
-                        <label for="maxDistance" class="field-label">Max Distance:<span class="field-value" id="distanceOut">140</span></label>
-                        <input
-                            type="range"
-                            id="maxDistance"
-                            min="40"
-                            max="260"
-                            step="10"
-                            value="140"
-                        />
-                    </div>
-                </div>
-            </section>
+                        <div class="story-body">
+                            <h3 id="storyTitle" class="story-title">No star selected</h3>
+                            <p id="mythText">
+                                Choose a seed and click on a star in the sky to reveal its myth.
+                            </p>
+                        </div>
+                    </section>
+                </aside>
 
-            <!-- Story Card -->
-            <section class="panel-card story-card">
-                <div class="story-header">
-                    <div class="story-icon">*</div>
-                    <div>
-                        <h2 class="panel-title">Star Myths</h2>
-                        <p class="hint-text">Discover the myth behind each star in your constellation.</p>
-                    </div>
-                </div>
-
-                <div id="story-body">
-                    <h3 id="storyTitle" class="story-title">No star selected</h3>
-                    <p id="mythText">
-                        Choose a seed and click on a star in the sky to reveal its myth.
-                    </p>
-                </div>
-            </section>
-        </aside>
+            </div>
+        </section>
     </main>
-    </div>
-
+    
     <script src="main.js"></script>
+
 </body>
 </html>

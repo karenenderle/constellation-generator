@@ -5,6 +5,53 @@ const seedInput = document.getElementById("seedInput");
 const applySeedButton = document.getElementById("applySeed");
 const mythTextEl = document.getElementById("mythText");
 
+// Constellation line settings
+let star = [];
+let STARFIELD_WIDTH = 0;
+let STARFIELD_HEIGHT = 0;
+
+let links = [];
+let LINK_MAX_DISTANCE = 140;
+let LINK_NEIGHBORS = 2;
+let showLines = true;
+
+// Controls for constellation lines
+const toggleLinesEl = document.getElementById("toggleLines");
+const maxNeighborsEl = document.getElementById("maxNeighbors");
+const neighborsOutEl = document.getElementById("neighborsOut");
+const maxDistanceEl = document.getElementById("maxDistance");
+const distanceOutEl = document.getElementById("distanceOut");
+
+// Initialize line controls
+if (toggleLinesEl) {
+    showLines = toggleLinesEl.checked;
+    toggleLinesEl.addEventListener("change", () => {
+        showLines = toggleLinesEl.checked;
+        drawSky(); // Redraw with or without lines
+    });
+}
+
+if (maxNeighborsEl && neighborsOutEl) {
+    LINK_NEIGHBORS = Number(maxNeighborsEl.value);
+    neighborsOutEl.textContent = LINK_NEIGHBORS;
+    
+    maxNeighborsEl.addEventListener("input", () => {
+        LINK_NEIGHBORS = Number(maxNeighborsEl.value);
+        neighborsOutEl.textContent = LINK_NEIGHBORS;
+    });
+}
+
+if (maxDistanceEl && distanceOutEl) {
+    LINK_MAX_DISTANCE = Number(maxDistanceEl.value);
+    distanceOutEl.textContent = LINK_MAX_DISTANCE;
+
+    maxDistanceEl.addEventListener("input", () => {
+        LINK_MAX_DISTANCE = Number(maxDistanceEl.value);
+        distanceOutEl.textContent = LINK_MAX_DISTANCE;
+        drawSky(); // Redraw with new distance
+    });
+}
+
 // Default text to show in myth panel
 const DEFAULT_MYTH_TEXT = "Click on a star to learn its myth.";
 
@@ -12,11 +59,6 @@ const DEFAULT_MYTH_TEXT = "Click on a star to learn its myth.";
 if (mythTextEl && !mythTextEl.textContent.trim()) {
     mythTextEl.textContent = DEFAULT_MYTH_TEXT;
 }
-
-// Keep track of stars to detect clicks
-let stars = [];
-let STARFIELD_WIDTH = 0;
-let STARFIELD_HEIGHT = 0;
 
 // Resize canvas so it matches the size of its container
 function resizeCanvas() {
@@ -93,6 +135,44 @@ function generateStars() {
     }
 }
 
+// Draw constellation lines between stars
+function buildConstellationLines() {
+    links = []; // Clear existing links
+
+    for (let i = 0; i < stars.length; i++) {
+        const starA = stars[i];
+        const neighbors = [];
+
+        // Look at every other star
+        for (let j = 0; j < stars.length; j++) {
+            if (i === j) continue; // Skip itself
+            const starB = stars[j];
+
+            // Calculate distance between stars
+            const dx = starA.x - starB.x;
+            const dy = starA.y - starB.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // If within max distance, consider as a neighbor
+            if (distance <= LINK_MAX_DISTANCE) {
+                neighbors.push({ index: j, distance });
+            }
+        }
+
+        // Sort neighbors by distance and take the closest ones
+        neighbors.sort((a, b) => a.distance - b.distance);
+
+        const toConnect = neighbors.slice(0, LINK_NEIGHBORS);
+        for (const n of toConnect) {
+            const j = n.index;
+            // To avoid duplicate lines, only add if i < j
+            if (i < j) {
+                links.push({ from: i, to: j });
+            }
+        }
+    }
+}
+
 // IV. Draw an infinite starfield
 function drawStarsInfinite() {
     // if (!stars.length || STARFIELD_WIDTH === 0 || STARFIELD_HEIGHT === 0) return; // No stars to draw yet
@@ -129,6 +209,50 @@ function drawStarsInfinite() {
         }
     }
 
+    ctx.globalAlpha = 1; // Reset the transparency back to full for any future drawing
+}
+
+function drawConstellationLinesInfinite() {
+    if (links.length === 0 || STARFIELD_WIDTH === 0 || STARFIELD_HEIGHT === 0) return; // No links to draw
+
+    const tileW = STARFIELD_WIDTH;;
+    const tileH = STARFIELD_HEIGHT;
+
+    // Figure out which part of the "world" is currently visible (same logic as stars)
+    const minX = (-offsetX) / scale; // Left edge in sky coordinates
+    const minY = (-offsetY) / scale; // Top edge in sky coordinates
+    const maxX = minX + (canvas.width / scale); // Right edge in sky coordinates
+    const maxY = minY + (canvas.height / scale); // Bottom edge in sky coordinates
+
+    const startTileX = Math.floor(minX / tileW) - 1;
+    const startTileY = Math.floor(minY / tileH) - 1;
+    const endTileX   = Math.floor(maxX / tileW) + 1;
+    const endTileY   = Math.floor(maxY / tileH) + 1;
+
+    ctx.save();
+    ctx.lineWidth = 0.8;
+    ctx.strokeStyle = "rgba(148, 197, 253, 0.9)"; // Soft blue color for constellation lines
+    ctx.globalAlpha = 0.9;
+
+    for (let tileX = startTileX; tileX <= endTileX; tileX++) {
+        for (let tileY = startTileY; tileY <= endTileY; tileY++) {
+            const shiftX = tileX * tileW; // Calculate the offset for this tile
+            const shiftY = tileY * tileH; // Calculate the offset for this tile
+
+            // Draw all links in this tile
+            for (const link of links) {
+                const starA = stars[link.from]; // Get the two stars to connect
+                const starB = stars[link.to];
+
+                ctx.beginPath();
+                ctx.moveTo(starA.x + shiftX, starA.y + shiftY); // Move to the first star
+                ctx.lineTo(starB.x + shiftX, starB.y + shiftY); // Draw a line to the second star
+                ctx.stroke(); // Stroke the line
+            }
+        }
+    }
+
+    ctx.restore(); // Restore to default
     ctx.globalAlpha = 1; // Reset the transparency back to full for any future drawing
 }
 
@@ -209,20 +333,26 @@ function drawSky() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
     ctx.globalAlpha = 1;
     ctx.fillStyle = "#060912"; // Dark night sky color
-    ctx.fillRect(0, 0, canvas.width, canvas.height); // Clear the canvas with a dark background
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
 
     // Apply pan and zoom transformations
     ctx.translate(offsetX, offsetY);
     ctx.scale(scale, scale);
 
     // Reset seed before drawing so stars match the seed every time
-    const currentSeed = seedInput.value && seedInput.value.trim() || "orion";
+    const currentSeed = (seedInput.value && seedInput.value.trim()) || "orion";
     setSeed(currentSeed);
 
-    generateStars(); // Generate stars based on the current seed
-    drawStarsInfinite(); // Draw the infinite starfield
+    generateStars();           // Make stars for this seed
+    buildConstellationLines(); // Decide which stars are connected
 
-    ctx.restore(); // Restore to default
+    if (showLines) {
+        drawConstellationLinesInfinite(); // Draw constellation lines first
+    }
+    
+    drawStarsInfinite();       // Draw stars on top of the lines
+
+    ctx.restore();             // Restore to default
 }
 
 // VIII. Fetch and display constellation myth
