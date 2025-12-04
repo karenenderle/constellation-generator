@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>How It Works - Constellation Generator</title>
+
+        <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600&family=Inter:wght@400;500;600&display=swap"
+    rel="stylesheet"
+  />
+
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+    <div class="app">
+        <header class="site-header">
+            <div class="logo-title">
+                <h1>Constellation Generator</h1>
+                <p class="subtitle">
+                    Procedurally generate constellations and explore their myths.
+                </p>
+            </div>
+
+            <nav class="site-nav">
+                <a href="index.html" class="nav-link">Generator</a>
+                <a href="how-it-works.html" class="nav-link is-active">How It Works</a>
+            </nav>
+        </header>
+
+    <main class="app-layout how-layout">
+        <!-- Intro -->
+        <section class="panel-card">
+            <h2 class="panel-title">What Is This App?</h2>
+            <p class="how-text">
+                The Constellation Generator creates a starfield based on a single
+                word or prhase called a <strong>seed</strong>. The same seed always produces
+                the same star pattern. Users can pan, zoom, draw constellation lines, and
+                click stars to reveal their myths.
+            </p>
+        </section>
+
+        <!-- Seeding -->
+        <section class="panel-card">
+            <h2 class="panel-title">1. Seeding the Sky</h2>
+            <p class="how-text">
+                A seed is any word a user types, like <em>Orion</em> or <em>Andromeda</em>. The app
+                converts each character in the seed into a number, combines the numbers, and uses
+                that value to guide the random number generator. This ensures the sky is
+                <strong>repeatable</strong>:the same seed always produces the same star pattern.
+            </p>
+        </section>
+
+        <!-- Randomness -->
+        <section class="panel-card">
+            <h2 class="panel-title">2. Deterministic Randomness</h2>
+            <p class="how-text">
+                The app uses a simple mathematical function to create random-looking
+                numbers from the seed. These numbers detemrine where each star goes.
+                Because the math always starts from the same seed value, the results look random
+                but are actually predictable and repeatable.
+            </p>
+        </section>
+
+        <section class="panel-card">
+            <h2 class="panel-title">3. Starfield</h2>
+            <p class="how-text">
+                Each star gets an X and Y position based on the assigned random values. The canvas
+                then draws each star as a tiny glowing circle. Panning and zooming simply
+                moves or scales the view. You're looking at the same starfield, just closer or
+                farther away. 
+            </p>
+        </section>
+
+        <section class="panel-card">
+            <h2 class="panel-title">4. Constellation Lines</h2>
+            <p class="how-text">
+                The app connects nearby stars based on two controls:
+            </p>
+            <ul class="how-list">
+                <li><strong>Max Distance</strong>: how close two stars must be to connect</li>
+                <li><strong>Max Neighbors</strong>: how many connections each star can have</li>
+            </ul>
+            <p class="how-text">
+                Changing these settings redraws the connections, creating new
+                constellation shapes from the same stars.
+            </p>
+        </section>
+
+        <!-- Myths -->
+        <section class="panel-card">
+            <h2 class="panel-title">5. Star Myths</h2>
+            <p class="how-text">
+                Clicking a star sends its name to the server, which returns a short, story-like
+                myth about that star. The myths are generated from themed word lists to feel ancient,
+                mysterious, and atomospheric, like real constellation legends.
+            </p>
+        </section>
+    </main>
+    <footer class="site-footer">
+        <p>
+            &copy; 2025 Constellation Generator. Created by Karen Enderle.
+        </p>
+    </footer>
+    </div>
+</body>
+</html>

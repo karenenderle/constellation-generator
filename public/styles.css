@@ -258,6 +258,13 @@ body {
   border-radius: 3px;
 }
 
+.site-nav {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  margin-left: auto;
+}
+
 @media (max-width: 960px) {
   .layout {
     flex-direction: column;
@@ -274,4 +281,32 @@ body {
   .logo-title h1 {
     font-size: 1.45rem;
   }
+}
+
+.how-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  max-width: 720px;
+  align-items: center;
+  margin: 0 auto;
+}
+
+.how-text {
+  font-size: 0.88rem;
+  line-height: 1.6;
+  color: #e5e7eb;
+  margin: 0;
+}
+
+.how-list {
+  margin: 6px 0 0 18px;
+  padding: 0;
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: #cbd5e1;
+}
+
+.how-list li {
+  margin-bottom: 6px;
 }

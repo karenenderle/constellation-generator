@@ -6,7 +6,7 @@ const applySeedButton = document.getElementById("applySeed");
 const mythTextEl = document.getElementById("mythText");
 
 // Constellation line settings
-let star = [];
+let stars = [];
 let STARFIELD_WIDTH = 0;
 let STARFIELD_HEIGHT = 0;
 
