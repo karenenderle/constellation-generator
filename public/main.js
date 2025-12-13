@@ -3,7 +3,16 @@ const canvas = document.getElementById("sky");
 const ctx = canvas.getContext("2d");
 const seedInput = document.getElementById("seedInput");
 const applySeedButton = document.getElementById("applySeed");
+const mythTitleEl = document.getElementById("mythTitle");
 const mythTextEl = document.getElementById("mythText");
+
+async function loadMythForStar(starId, seed) {
+  const res = await fetch(`/api/myth?starId=${starId}&seed=${encodeURIComponent(seed || "orion")}`);
+  const data = await res.json();
+
+  mythTitleEl.textContent = data.title; // Update the title
+  mythTextEl.textContent = data.story; // Put the story in the body area
+}
 
 // Constellation line settings
 let stars = [];
@@ -364,7 +373,7 @@ async function fetchMythForName(seed, starId) {
 
     try {
         const url = `/api/myth?seed=${encodeURIComponent(seed)}&starId=${encodeURIComponent(starId)}`;
-
+        
         const response = await fetch(url);
         const data = await response.json();
 
@@ -372,10 +381,12 @@ async function fetchMythForName(seed, starId) {
             throw new Error("No myth found");
         }
 
+        if (mythTitleEl) {
+            mythTitleEl.textContent = data.title;
+        }
+
         if (mythTextEl) {
-            mythTextEl.textContent = `${data.title}\n\n${data.story}`;
-        } else {
-            alert(`${data.title}\n\n${data.story}`);
+            mythTextEl.textContent = data.story;
         }
     } catch (error) {
         console.error(error);

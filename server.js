@@ -5,7 +5,7 @@ const path = require("path");
 
 const app = express(); // Create an Express application
 
-app.use(cors()); // Allow cross-origin requests
+//app.use(cors()); // Allow cross-origin requests
 app.use(express.json()); // Let Express understand JSON in request bodies
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files from the "public" folder
 
@@ -16,6 +16,10 @@ function pickRandom(list) {
 }
 
 // III. Build a myth for a star
+function capitalize(word) {
+  return word.charAt(0).toUpperCase() + word.slice(1);
+}
+
 function buildMyth(starId) {
   const epithets = [
     "the Wanderer",
@@ -113,21 +117,77 @@ const secondNames = [
   "of the Swan"
 ];
 
+const numbers = [
+  "three",
+  "four",
+  "five",
+  "seven",
+  "nine"
+];
+
+const starDescriptors = [
+  "faint",
+  "dim",
+  "pale",
+  "wandering",
+  "sleeping"
+];
+
+const vows = [
+  "swore",
+  "vowed",
+  "promised",
+  "pledged",
+];
+
+const seasonalReturns = [
+  "first thaw",
+  "last frost",
+  "new moon",
+  "harvest time",
+  "turn of the year"
+];
+
+const professions = [
+  "Sailors",
+  "Fishermen",
+  "Shepherds",
+  "Merchants",
+  "Pilgrims",
+  "Hunters"
+];
+
+const actions = [
+  "bow their heads",
+  "raise a lantern",
+  "whistle a tune",
+  "make an offering",
+  "keep the oven door ajar"
+];
+
+const starNames = [
+  "this star",
+  "its beacon",
+  "the guiding light",
+  "the wanderer's flame",
+  "the watchful eye"
+];
+
 const starName = `${pickRandom(firstNames)} ${pickRandom(secondNames)}`; // Generate a star name
-const title = `${starName}, ${pickRandom(epithets)}`; // Generate a star title
+const title = `${starName}, ${pickRandom(epithets)}`; // Generate a myth title
 
-const story = [ // Generate a myth story
-    `${starName} was ${pickRandom(figures)} of ${pickRandom(realms)}.`,
-    `When ${pickRandom(omens)} foretold ${pickRandom(trials)}, they set out with ${pickRandom(gifts)}.`,
-    `They traced a path by three faint stars and swore to return before the first thaw.`,
-    `Sailors still tap the mast twice when this star rises, and bakers keep the oven door ajar until its light fades.`
-  ].join(" "); // Join story parts into a single string
+const story = [
+  `${starName} was ${pickRandom(figures)} of ${pickRandom(realms)}.`,
+  `When ${pickRandom(omens)} foretold ${pickRandom(trials)}, they set out with ${pickRandom(gifts)}.`,
+  `They traced a path by ${pickRandom(numbers)} ${pickRandom(starDescriptors)} stars and ${pickRandom(vows)} to return before the ${pickRandom(seasonalReturns)}.`,
+  `${pickRandom(professions)} still ${pickRandom(actions)} when ${pickRandom(starNames)} rises.`
+].join(" ");
 
-  return { // Return the myth object
-    id: String(starId),
-    title,
-    story
-  };
+return {
+  id: String(starId),
+  title,  // plain text
+  story   // plain text
+};
 }
 
 // IV. API endpoint
