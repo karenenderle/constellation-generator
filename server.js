@@ -5,7 +5,6 @@ const path = require("path");
 
 const app = express(); // Create an Express application
 
-//app.use(cors()); // Allow cross-origin requests
 app.use(express.json()); // Let Express understand JSON in request bodies
 app.use(express.static(path.join(__dirname, "public"))); // Serve static files from the "public" folder
 
@@ -206,6 +205,11 @@ app.get("/api/myth", (req, res) => {
     console.error("Error while building myth:", error);
     res.status(500).json({ error: "Myth generation failed" });
   }
+});
+
+// Deployment additions
+app.get("/", (req, res) => {
+  res.sendFile(path.join(__dirname, "public", "index.html"));
 });
 
 // V. Start the server
