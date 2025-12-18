@@ -25,28 +25,28 @@ let LINK_NEIGHBORS = 2;
 let showLines = true;
 
 // Controls for constellation lines
-const toggleLinesEl = document.getElementById("toggleLines");
-const maxNeighborsEl = document.getElementById("maxNeighbors");
-const neighborsOutEl = document.getElementById("neighborsOut");
-const maxDistanceEl = document.getElementById("maxDistance");
-const distanceOutEl = document.getElementById("distanceOut");
+const toggleLinesEl = document.getElementById("toggleLines"); // Checkbox to show/hide lines
+const maxNeighborsEl = document.getElementById("maxNeighbors"); // Input for max neighbors
+const neighborsOutEl = document.getElementById("neighborsOut"); // Output for max neighbors
+const maxDistanceEl = document.getElementById("maxDistance"); // Input for max distance
+const distanceOutEl = document.getElementById("distanceOut"); // Output for max distance
 
 // Initialize line controls
-if (toggleLinesEl) {
-    showLines = toggleLinesEl.checked;
-    toggleLinesEl.addEventListener("change", () => {
-        showLines = toggleLinesEl.checked;
+if (toggleLinesEl) { // Set initial value
+    showLines = toggleLinesEl.checked; // Get from checkbox
+    toggleLinesEl.addEventListener("change", () => { // Update on checkbox change
+        showLines = toggleLinesEl.checked; // Get new value
         drawSky(); // Redraw with or without lines
     });
 }
 
-if (maxNeighborsEl && neighborsOutEl) {
-    LINK_NEIGHBORS = Number(maxNeighborsEl.value);
-    neighborsOutEl.textContent = LINK_NEIGHBORS;
+if (maxNeighborsEl && neighborsOutEl) { // Set initial value
+    LINK_NEIGHBORS = Number(maxNeighborsEl.value); // Get from input
+    neighborsOutEl.textContent = LINK_NEIGHBORS; // Show initial value
     
-    maxNeighborsEl.addEventListener("input", () => {
-        LINK_NEIGHBORS = Number(maxNeighborsEl.value);
-        neighborsOutEl.textContent = LINK_NEIGHBORS;
+    maxNeighborsEl.addEventListener("input", () => { // Update on input change
+        LINK_NEIGHBORS = Number(maxNeighborsEl.value); // Get new value
+        neighborsOutEl.textContent = LINK_NEIGHBORS; // Show new value
     });
 }
 

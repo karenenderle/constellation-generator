@@ -3,7 +3,7 @@
 This app allows users to generate constellations procedurally in a starfield and click stars to uncover unique myths. It also uses seeded randomness to generate repeatable starfields.
 
 ## Live Demo
-**Live site:** https://consellation-generator.onrender.com  
+**Live site:** https://constellation-generator.onrender.com  
 **Repository:** https://github.com/karenenderle/constellation-generator.git
 
 ## Features
@@ -39,13 +39,10 @@ This project is deployed as a **Node web service** on Render.
 `cd <constellation-generator>`
 ### 3) Install dependencies
 `npm install`
-### 4) Create a .env file at the projet root:
-`touch .env`  
-`PORT=8080`
-### 5) Run the app
+### 4) Run the app
 `npm start`
-### 6) Access your browser and navigate to:
-`http:localhost:8080`
+### 5) Access your browser and navigate to:
+`http://localhost:8080`
 ### How to Use
 1. Open the app in your browser.
 2. Type a seed (ex: `orion`, `andromeda`, `john123`) and click **Apply**.
