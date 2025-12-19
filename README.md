@@ -59,3 +59,11 @@ This project focuses on procedural generation, deterministic logic, interactive 
 | **Create a function that accepts two or more input parameters and returns a value that is calculated or determined by the inputs.**      | Procedural generation functions accept multiple parameters (seed, star count, distance thresholds, neighbor limits) to determine star placement, constellation connections, and myth selection.         |                                                         |
 | **Create a Node.js web server using Express.js**           | A Node.js + Express server serves static frontend files and API routes. The app is deployed as a live service on Render.                                                                                |
 | **Create an API with GET and POST requests**               | A REST API endpoint (`GET /api/myth`) returns myth data based on star ID and seed.                                                                        |
+
+## AI Assistance
+
+AI tools were used to support learning and problem-solving, including:
+- Researching deterministic seeded random number generation
+- Prototyping approaches for drawing constellation lines between stars
+- Explaining JavaScript Canvas and algorithmic concepts
+- Annotating and organizing code
